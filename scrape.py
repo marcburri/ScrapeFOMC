@@ -128,7 +128,7 @@ for year in years:
 
         for doc in docs:
             for documentType in documentTypes:
-                try:
+                try: # Deal with some exceptions
                     if documentType in doc.text:
                         if documentType == "Greenbook" and "Part" in doc.text:
                             row = greenbook_special_cases(doc, row, browser, year)
