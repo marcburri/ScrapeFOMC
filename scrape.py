@@ -103,7 +103,10 @@ for year in years:
                 start = date.split(" ")[1].strip().split("-")[0]
                 end = date.split(" ")[1].strip().split("-")[1]
                 startmonth = endmonth = date.split("-")[0].strip().split(" ")[0]
-
+        elif date.find("and") != -1:
+            startmonth = endmonth = date.split(" ")[0]
+            start = date.split(" ")[1].split(",")[0]
+            end = date.split("and")[1].strip()
         else:
             startmonth = endmonth = date.split(" ")[0]
             start = end = date.split(" ")[1]
