@@ -26,4 +26,4 @@ documentTypes = ["Minutes", "Longer-Run Goals", "Statement", "Projection"]
 df2 = get_fomc_current(dirname, documentTypes)
 ```
 
-Note: The program uses the selenium package with geckodriver. See here for more information: ![https://github.com/mozilla/geckodriver](https://github.com/mozilla/geckodriver)
+Note: The program uses the selenium package with geckodriver. See here for more information: [https://github.com/mozilla/geckodriver](https://github.com/mozilla/geckodriver)
