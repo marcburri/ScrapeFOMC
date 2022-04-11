@@ -26,4 +26,6 @@ documentTypes = ["Minutes", "Longer-Run Goals", "Statement", "Projection"]
 df2 = get_fomc_current(dirname, documentTypes)
 ```
 
-Note: The program uses the selenium package with geckodriver. See here for more information: [https://github.com/mozilla/geckodriver](https://github.com/mozilla/geckodriver)
+Notes:
+- The program uses the selenium package with geckodriver. See here for more information: [https://github.com/mozilla/geckodriver](https://github.com/mozilla/geckodriver)
+- The full database is quite large (more than 5 GB)
