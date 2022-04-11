@@ -295,24 +295,3 @@ def get_fomc_current(dirname, documentTypes):
         df.to_excel("FOMCDataCurrent.xlsx", index=False)
     browser.close()
     return df
-
-
-
-
-# Set basedir
-dirname = "/Users/marcburri/Documents/GitHub/ScrapeFOMC"
-
-# Which documents to download
-documentTypes = ["Record of Policy Actions", "Minutes", "Beige Book", "Tealbook A", "Tealbook B", "Greenbook",
-                 "Bluebook", "Redbook", "Longer-Run Goals", "Memoranda", "Statement", "Supplement", "Transcript",
-                 "Individual Projections"]
-
-startyear = 1936
-endyear = 2007
-
-df1 = get_fomc_archive(dirname, startyear, endyear, documentTypes)
-
-# Which documents to download
-documentTypes = ["Minutes", "Longer-Run Goals", "Statement", "Projection"]
-
-df2 = get_fomc_current(dirname, documentTypes)
