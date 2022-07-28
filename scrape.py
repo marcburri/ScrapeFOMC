@@ -1,5 +1,8 @@
 import os
 from pathlib import Path
+import urllib.request
+import requests
+
 
 import pandas as pd
 from selenium import webdriver
@@ -158,20 +161,30 @@ def get_fomc_archive(dirname, startyear, endyear, documentTypes):
                             filepath = os.path.join(folderpath, os.path.basename(link))
                             Path(folderpath).mkdir(parents=True, exist_ok=True)
 
-                            session = get_request_session(browser)
-                            r = session.get(link, stream=True)
-                            chunk_size = 2000
-                            with open(filepath, 'wb') as file:
-                                for chunk in r.iter_content(chunk_size):
-                                    file.write(chunk)
+                            try:
+                                if os.path.basename(filepath).split(".")[0] == "default":
+                                    filepath = folderpath + "/" + documentType + endmonth + end + ".html"
+
+                                session = get_request_session(browser)
+                                r = session.get(link, stream=True)
+                                chunk_size = 2000
+                                with open(filepath, 'wb') as file:
+                                    for chunk in r.iter_content(chunk_size):
+                                        file.write(chunk)
+                            except:
+                                filepath = filepath + documentType + endmonth + end + ".html"
+                                r = requests.get(link)
+                                file = open(filepath, "w")
+                                file.write(r.text)
+                                file.close()
 
                             if row[documentType].isnull()[0]:
                                 row[documentType] = os.path.join("Documents", documentType, str(year),
-                                                                 os.path.basename(link))
+                                                                 os.path.basename(filepath))
                             else:
                                 row[documentType] = row[documentType] + ";" + \
                                                     os.path.join("Documents", documentType, str(year),
-                                                                 os.path.basename(link))
+                                                                 os.path.basename(filepath))
                     except Exception as e:
                         print(e)
                         continue
@@ -183,6 +196,7 @@ def get_fomc_archive(dirname, startyear, endyear, documentTypes):
 
     browser.close()
     return df
+
 
 
 def get_fomc_current(dirname, documentTypes):
@@ -295,3 +309,24 @@ def get_fomc_current(dirname, documentTypes):
         df.to_excel("FOMCDataCurrent.xlsx", index=False)
     browser.close()
     return df
+
+# Set basedir
+dirname = "/Users/marcburri/Documents/GitHub/ScrapeFOMC"
+
+# Which documents to download
+documentTypes = ["Record of Policy Actions", "Minutes", "Beige Book", "Tealbook A", "Tealbook B", "Greenbook",
+                 "Bluebook", "Redbook", "Longer-Run Goals", "Memoranda", "Statement", "Supplement", "Transcript",
+                 "Individual Projections"]
+
+
+startyear = 1936
+endyear = 2016
+
+df1 = get_fomc_archive(dirname, startyear, endyear, documentTypes)
+
+# Which documents to download
+documentTypes = ["Minutes", "Longer-Run Goals", "Statement", "Projection"]
+
+df2 = get_fomc_current(dirname, documentTypes)
+
+
